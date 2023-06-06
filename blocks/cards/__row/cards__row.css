@@ -1,0 +1,6 @@
+.cards__row {
+  min-width: 246px;
+  margin: 20px 15px auto 21px;
+  display: flex;
+  flex-direction: row;
+}

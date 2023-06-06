@@ -1,4 +1,4 @@
-# Проект: Путешествие по России
+# Проект: Mesto
 
 **Описание**
 
@@ -11,5 +11,5 @@
 
 **Посмотреть**
 
-* [Ссылка на GitHub Pages](https://tyazhelomov.github.io/russian-travel-tya/)
+* [Ссылка на GitHub Pages](https://tyazhelomov.github.io/mesto-project-tya/)
 

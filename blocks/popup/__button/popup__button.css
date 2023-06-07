@@ -8,6 +8,11 @@
   padding: 0;
   justify-content: center;
   cursor: pointer;
+  color: white;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .popup__button:hover {
@@ -19,5 +24,6 @@
     min-width: 238px;
     min-height: 46px;
     margin: 45px 0 25px 0;
+    font-size: 14px;
   }
 } 

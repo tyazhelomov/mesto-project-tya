@@ -2,6 +2,7 @@
 @import url(../vendor/fonts.css);
 @import url(../blocks/page/page.css);
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/popup-add-image.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__fields/popup__fields.css);
@@ -24,5 +25,13 @@
 @import url(../blocks/cards/__row/cards__row.css);
 @import url(../blocks/cards/__text/cards__text.css);
 @import url(../blocks/cards/__like/cards__like.css);
+@import url(../blocks/cards/__like/_active/cards__like_active.css);
+@import url(../blocks/cards/__remove/cards__remove.css);
+@import url(../blocks/cards-view/cards-view.css);
+@import url(../blocks/cards-view/__opened/cards-view__opened.css);
+@import url(../blocks/cards-view/__container/cards-view__container.css);
+@import url(../blocks/cards-view/__image/cards-view__image.css);
+@import url(../blocks/cards-view/__close/cards-view__close.css);
+@import url(../blocks/cards-view/__text/cards-view__text.css);
 @import url(../blocks/footer/__row/footer__row.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

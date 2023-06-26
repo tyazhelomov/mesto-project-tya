@@ -21,48 +21,6 @@
     <button type="button" class="profile__add-button"></button>
   </section>
   <section class="cards">
-    <div class="cards__item">
-      <img class="cards__image" src="./images/cards/kirill-pershin-1088404-unsplash-1.jpg" alt="Шоанинский храм.">
-      <div class="cards__row">
-        <h2 class="cards__text">Карачаевск</h2>
-        <button type="button" class="cards__like"></button>
-      </div>
-    </div>
-    <div class="cards__item">
-      <img class="cards__image" src="./images/cards/kirill-pershin-1404681-unsplash-1.jpg" alt="Гора на рассвете.">
-      <div class="cards__row">
-        <h2 class="cards__text">Гора Эльбрус</h2>
-        <button type="button" class="cards__like"></button>
-      </div>
-    </div>
-    <div class="cards__item">
-      <img class="cards__image" src="./images/cards/kirill-pershin-1556355-unsplash-1.jpg" alt="Вид на горы.">
-      <div class="cards__row">
-        <h2 class="cards__text">Домбай</h2>
-        <button type="button" class="cards__like"></button>
-      </div>
-    </div>
-    <div class="cards__item">
-      <img class="cards__image" src="./images/cards/kirill-pershin-1404681-unsplash-1.jpg" alt="Гора на рассвете.">
-      <div class="cards__row">
-        <h2 class="cards__text">Гора Эльбрус</h2>
-        <button type="button" class="cards__like"></button>
-      </div>
-    </div>
-    <div class="cards__item">
-      <img class="cards__image" src="./images/cards/kirill-pershin-1556355-unsplash-1.jpg" alt="Вид на горы.">
-      <div class="cards__row">
-        <h2 class="cards__text">Домбай</h2>
-        <button type="button" class="cards__like"></button>
-      </div>
-    </div>
-    <div class="cards__item">
-      <img class="cards__image" src="./images/cards/kirill-pershin-1088404-unsplash-1.jpg" alt="Шоанинский храм.">
-      <div class="cards__row">
-        <h2 class="cards__text">Карачаево-Черкесск</h2>
-        <button type="button" class="cards__like"></button>
-      </div>
-    </div>
   </section>
   </main>
   <footer class="footer">
@@ -76,12 +34,45 @@
       <h2 class="popup__header">Редактировать профиль</h2>
       <form class="popup__form" name="popup__form">
         <fieldset class="popup__fields">
-          <input class="popup__item" type="text" name="name" placeholder="Жак-Ив Кусто">
-          <input class="popup__item" type="text" name="description" placeholder="Исследователь океана">
+          <input class="popup__item" type="text" name="name" required>
+          <input class="popup__item" type="text" name="description" required>
           <button class="popup__button" type="submit">Сохранить</button>
         </fieldset>
       </form>
     </div>
   </div>
+  <div class="popup-add-image">
+    <div class="popup__container">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__header">Новое место</h2>
+      <form class="popup__form" name="popup__form">
+        <fieldset class="popup__fields">
+          <input class="popup__item" type="text" name="name" placeholder="Название" required>
+          <input class="popup__item" type="url" name="link" placeholder="Ссылка на картинку" required>
+          <button class="popup__button" type="submit">Создать</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <template id="cards__item-template">
+    <div class="cards__item">
+      <img class="cards__image">
+      <button type="button" class="cards__remove"></button>
+      <div class="cards__row">
+        <h2 class="cards__text"></h2>
+        <button type="button" class="cards__like"></button>
+      </div>
+    </div>
+  </template>
+  <template id="cards-view-template">
+    <div class="cards-view">
+      <div class="cards-view__container">
+        <img class="cards-view__image">
+        <p class="cards-view__text"></p>
+        <button type="button" class="cards-view__close"></button>
+      </div>
+    </div>
+  </template>
+  <script src="./script/script.js"></script>
 </body>
 </html>

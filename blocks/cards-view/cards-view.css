@@ -9,16 +9,5 @@
 
 .cards-view {
   background-color: rgba(0, 0, 0, .9);
-  background-size: contain;
-  position: fixed;
-  display: flex;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
   animation: show ease-in 0.5s normal none;
 }

@@ -28,30 +28,37 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </div>
   </footer>
-  <div class="popup">
+  <div class="popup popup_profile">
     <div class="popup__container">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__header">Редактировать профиль</h2>
       <form class="popup__form" name="popup__form">
         <fieldset class="popup__fields">
-          <input class="popup__item" type="text" name="name" required>
-          <input class="popup__item" type="text" name="description" required>
+          <input class="popup__item" type="text" name="name" placeholder="Жак-Ив Кусто" required>
+          <input class="popup__item" type="text" name="description" placeholder="Исследователь океана" required>
           <button class="popup__button" type="submit">Сохранить</button>
         </fieldset>
       </form>
     </div>
   </div>
-  <div class="popup-add-image">
+  <div class="popup popup_image">
     <div class="popup__container">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__header">Новое место</h2>
       <form class="popup__form" name="popup__form">
         <fieldset class="popup__fields">
-          <input class="popup__item" type="text" name="name" placeholder="Название" required>
-          <input class="popup__item" type="url" name="link" placeholder="Ссылка на картинку" required>
+          <input class="popup__item popup__item_name" type="text" name="name" placeholder="Название" required>
+          <input class="popup__item popup__item_link" type="url" name="link" placeholder="Ссылка на картинку" required>
           <button class="popup__button" type="submit">Создать</button>
         </fieldset>
       </form>
+    </div>
+  </div>
+  <div class="popup cards-view popup_view">
+    <div class="cards-view__container">
+      <img class="cards-view__image">
+      <p class="cards-view__text"></p>
+      <button type="button" class="popup__close"></button>
     </div>
   </div>
   <template id="cards__item-template">
@@ -64,15 +71,7 @@
       </div>
     </div>
   </template>
-  <template id="cards-view-template">
-    <div class="cards-view">
-      <div class="cards-view__container">
-        <img class="cards-view__image">
-        <p class="cards-view__text"></p>
-        <button type="button" class="cards-view__close"></button>
-      </div>
-    </div>
-  </template>
+  <script src="./constants/cards.js"></script>
   <script src="./script/script.js"></script>
 </body>
 </html>

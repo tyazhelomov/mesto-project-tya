@@ -3,8 +3,11 @@ const mainPageElement = document.querySelector('.page')
 const editProfileButton = mainPageElement.querySelector('.profile__edit-profile-button');
 const addPictureButton = mainPageElement.querySelector('.profile__add-button');
 const cardsContainer = mainPageElement.querySelector('.cards');
-const profileElement = mainPageElement.querySelector('.profile__info');
 const cardsItemTemplate = mainPageElement.querySelector('#cards__item-template').content;
+
+const profileElement = mainPageElement.querySelector('.profile__info');
+const profileName = profileElement.querySelector('.profile__name');
+const profileDescription = profileElement.querySelector('.profile__description');
 
 const popupEditProfileElement = mainPageElement.querySelector('.popup_profile');
 const popupEditProfileForm = popupEditProfileElement.querySelector('.popup__form');
@@ -19,17 +22,6 @@ const popupViewImage = popupViewElement.querySelector('.cards-view__image');
 const popupViewText = popupViewElement.querySelector('.cards-view__text');
 const popupViewCloseButton = popupViewElement.querySelector('.popup__close');
 
-function getProfileText() {
-  // здесь нам нужно искать каждый раз, т.к. свойства изменяются динамически
-  const profileName = profileElement.querySelector('.profile__name');
-  const profileDescription = profileElement.querySelector('.profile__description');
-
-  return {
-    profileName,
-    profileDescription,
-  }
-}
-
 function getFormFields(element) {
   return Array.from(element.querySelectorAll('.popup__item'));
 }
@@ -38,19 +30,17 @@ function openPopup(element) {
   element.classList.add('popup_opened');
 }
 
-function closePopup(element) {
+const clearFields = element => {
   const formElement = element.querySelector('form');
+  formElement.reset();
+}
 
-  if (formElement) {
-    formElement.reset();
-  }
-
+function closePopup(element) {
   element.classList.remove('popup_opened');
 }
 
 function openProfilePopup() {
   const fields = getFormFields(popupEditProfileElement);
-  const { profileName, profileDescription } = getProfileText();
 
   fields.forEach(item => {
     if (item.name === 'name') {
@@ -63,14 +53,9 @@ function openProfilePopup() {
   openPopup(popupEditProfileElement);
 }
 
-editProfileButton.addEventListener('click', openProfilePopup);
-
-popupCloseEditProfileElement.addEventListener('click', () => closePopup(popupEditProfileElement));
-
 function saveProfileInfo(evt) {
   evt.preventDefault();
   const fields = getFormFields(popupEditProfileElement);
-  const { profileName, profileDescription } = getProfileText();
   
   fields.forEach(item => {
     if (item.value.length) {
@@ -82,11 +67,9 @@ function saveProfileInfo(evt) {
     }
   })
 
+  clearFields(popupEditProfileElement);
   closePopup(popupEditProfileElement);
 }
-
-popupEditProfileForm.addEventListener('submit', saveProfileInfo);
-popupViewCloseButton.addEventListener('click', () => closePopup(popupViewElement))
 
 function removeCard(evt) {
   evt.srcElement.closest('.cards__item').remove();
@@ -132,13 +115,6 @@ function createCards(cardData) {
   return cardsItemElement;
 }
 
-initialCards.forEach(item => {
-  const name = item.name;
-  const link = item.link;
-
-  renderCards({ name, link });
-})
-
 function addImage(evt) {
   evt.preventDefault();
 
@@ -155,13 +131,35 @@ function addImage(evt) {
   })
 
   if (!name || !link) {
+
+    clearFields(popupAddImageElement);
     closePopup(popupAddImageElement);
   } else {
     renderCards({ name, link });
+    clearFields(popupAddImageElement);
     closePopup(popupAddImageElement);
   }
 }
 
-popupCloseAddImageElement.addEventListener('click', () => closePopup(popupAddImageElement));
+initialCards.forEach(item => {
+  const name = item.name;
+  const link = item.link;
+
+  renderCards({ name, link });
+})
+
+editProfileButton.addEventListener('click', openProfilePopup);
+popupCloseEditProfileElement.addEventListener('click', () => {
+  clearFields(popupEditProfileElement);
+  closePopup(popupEditProfileElement);
+});
+
+popupEditProfileForm.addEventListener('submit', saveProfileInfo);
+popupViewCloseButton.addEventListener('click', () => closePopup(popupViewElement));
+
+popupCloseAddImageElement.addEventListener('click', () => {
+  clearFields(popupAddImageElement);
+  closePopup(popupAddImageElement);
+});
 addPictureButton.addEventListener('click', () => openPopup(popupAddImageElement));
 popupAddImageForm.addEventListener('submit', addImage);

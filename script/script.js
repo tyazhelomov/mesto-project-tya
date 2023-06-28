@@ -75,10 +75,7 @@ function removeCard(evt) {
   evt.srcElement.closest('.cards__item').remove();
 }
 
-function showCard(evt) {
-  const link = evt.srcElement.currentSrc;
-  const name = evt.srcElement.closest('.cards__item').textContent;
-
+function showCard(link, name) {
   popupViewImage.setAttribute('src', link);
   popupViewImage.setAttribute('alt', name);
   popupViewText.textContent = name;
@@ -110,7 +107,12 @@ function createCards(cardData) {
 
   likeButton.addEventListener('click', () => likeButton.classList.toggle('cards__like_active'))
   removeButton.addEventListener('click', removeCard);
-  cardImageElement.addEventListener('click', showCard);
+  cardImageElement.addEventListener('click', evt => {
+    const link = evt.srcElement.currentSrc;
+    const name = evt.srcElement.closest('.cards__item').textContent;
+
+    showCard(link, name)
+  });
 
   return cardsItemElement;
 }

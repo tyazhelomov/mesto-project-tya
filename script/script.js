@@ -150,6 +150,10 @@ initialCards.forEach(item => {
   renderCards({ name, link });
 })
 
+Array.from(mainPageElement.querySelectorAll('.popup')).forEach(el => {
+  el.classList.remove('popup_display-none');
+})
+
 editProfileButton.addEventListener('click', openProfilePopup);
 popupCloseEditProfileElement.addEventListener('click', () => {
   clearFields(popupEditProfileElement);

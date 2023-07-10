@@ -1,8 +1,0 @@
-.cards-view__container {
-  max-width: 75vw;
-  max-height: 75vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
-}

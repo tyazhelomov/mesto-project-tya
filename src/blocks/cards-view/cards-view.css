@@ -1,0 +1,13 @@
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cards-view {
+  background-color: rgba(0, 0, 0, .9);
+  animation: show ease-in 0.5s normal none;
+}

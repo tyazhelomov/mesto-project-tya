@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+</head>
+<body class="page">
+  <header class="header">
+    <img class="header__logo" alt="Логотип проекта Mesto.">
+  </header>
+  <main class="content">
+  <section class="profile">
+    <img class="profile__avatar" alt="Портрет Жак-Ив Кусто.">
+    <div class="profile__info">
+      <h1 class="profile__name">Жак-Ив Кусто</h1>
+      <button type="button" class="profile__edit-profile-button"></button>
+      <p class="profile__description">Исследователь океана</p>
+    </div>
+    <button type="button" class="profile__add-button"></button>
+  </section>
+  <section class="cards">
+  </section>
+  </main>
+  <footer class="footer">
+    <div class="footer__row">
+      <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+    </div>
+  </footer>
+  <div class="popup popup_display-none popup_profile">
+    <div class="popup__overlay"></div>
+    <div class="popup__container">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__header">Редактировать профиль</h2>
+      <form class="popup__form" name="popup__form" novalidate>
+        <fieldset class="popup__fields">
+          <input
+            id="name-input"
+            class="popup__item"
+            type="text"
+            name="name"
+            placeholder="Имя"
+            minlength="2"
+            maxlength="40"
+            pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
+            data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+            required
+          >
+          <span class="name-input-error popup__item-error"></span>
+          <input
+            id="description-input"
+            class="popup__item"
+            type="text"
+            name="description"
+            placeholder="Профессия"
+            minlength="2"
+            maxlength="200"
+            pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
+            data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+            required
+          >
+          <span class="description-input-error popup__item-error"></span>
+          <button class="popup__button" type="submit">Сохранить</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_display-none popup_image">
+    <div class="popup__overlay"></div>
+    <div class="popup__container">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__header">Новое место</h2>
+      <form class="popup__form" name="popup__form" novalidate>
+        <fieldset class="popup__fields">
+          <input
+            id="name-input"
+            class="popup__item"
+            type="text"
+            name="name"
+            placeholder="Название"
+            minlength="2"
+            maxlength="30"
+            pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
+            data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+            required
+          >
+          <span class="name-input-error popup__item-error"></span>
+          <input
+            id="link-input"
+            class="popup__item"
+            type="url"
+            name="link"
+            placeholder="Ссылка на картинку"
+            pattern="^(((ftp|http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$"
+            data-error-message="Введите корректный URL"
+            required
+          >
+          <span class="link-input-error popup__item-error"></span>
+          <button class="popup__button" type="submit">Создать</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_display-none cards-view popup_view">
+    <div class="popup__overlay"></div>
+    <div class="cards-view__container">
+      <img class="cards-view__image">
+      <p class="cards-view__text"></p>
+      <button type="button" class="popup__close"></button>
+    </div>
+  </div>
+  <template id="cards__item-template">
+    <div class="cards__item">
+      <img class="cards__image">
+      <button type="button" class="cards__remove"></button>
+      <div class="cards__row">
+        <h2 class="cards__text"></h2>
+        <button type="button" class="cards__like"></button>
+      </div>
+    </div>
+  </template>
+</body>
+</html>

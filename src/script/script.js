@@ -49,14 +49,14 @@ export const popUpViewOverlay = popupViewElement.querySelector('.popup__overlay'
 
 editProfileButton.addEventListener('click', openProfilePopup);
 popupCloseEditProfileElement.addEventListener('click', () => {
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#name-input'));
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#description-input'));
+  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
+  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#description-input'), { inputErrorClass: 'popup__item_type-error' });
   clearFields(popupEditProfileElement);
   closePopup(popupEditProfileElement);
 });
 popUpEditProfileOverlay.addEventListener('click', () => {
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#name-input'));
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#description-input'));
+  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
+  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#description-input'), { inputErrorClass: 'popup__item_type-error' });
   clearFields(popupEditProfileElement.closest('.popup'));
   closePopup(popupEditProfileElement.closest('.popup'));
 });
@@ -66,14 +66,14 @@ popupViewCloseButton.addEventListener('click', () => closePopup(popupViewElement
 popUpViewOverlay.addEventListener('click', () => closePopup(popupViewElement.closest('.popup')));
 
 popupCloseAddImageElement.addEventListener('click', () => {
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#name-input'));
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#link-input'));
+  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
+  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#link-input'), { inputErrorClass: 'popup__item_type-error' });
   clearFields(popupAddImageElement);
   closePopup(popupAddImageElement);
 });
 popUpAddImageOverlay.addEventListener('click', () => {
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#name-input'));
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#link-input'));
+  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
+  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#link-input'), { inputErrorClass: 'popup__item_type-error' });
   clearFields(popupAddImageElement.closest('.popup'));
   closePopup(popupAddImageElement.closest('.popup'));
 });
@@ -105,4 +105,11 @@ initialCards.forEach(item => {
   renderCards({ name, link });
 })
 
-enableValidation();
+enableValidation({
+  formSelector: '.popup__form',
+  inputSelector: '.popup__item',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_inactive',
+  inputErrorClass: 'popup__item_type-error',
+  errorClass: 'popup__item_type-error_active',
+}); 

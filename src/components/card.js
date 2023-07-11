@@ -12,7 +12,7 @@ import {
 } from "../constants/elements";
 
 function removeCard(evt) {
-  evt.srcElement.closest(validationsConstants.inputSelector).remove();
+  evt.srcElement.closest('.cards__item').remove();
 }
 
 function renderCards(cardData) {

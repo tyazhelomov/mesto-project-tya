@@ -1,18 +1,20 @@
-import { popupEditProfileElement } from "../script/script";
+import {
+  getFormFields,
+  clearFields,
+  closePopup,
+} from "../components/modal";
+import {
+  popupEditProfileElement,
+  profileName,
+  profileDescription,
+} from "../constants/elements";
 
 export function saveProfileInfo(evt) {
   evt.preventDefault();
   const fields = getFormFields(popupEditProfileElement);
-  
-  fields.forEach(item => {
-    if (item.value.length) {
-      if (item.name === 'name') {
-        profileName.textContent = item.value;
-      } else {
-        profileDescription.textContent = item.value;
-      }
-    }
-  })
+
+  profileName.textContent = fields.name;
+  profileDescription.textContent = fields.description;
 
   clearFields(popupEditProfileElement);
   closePopup(popupEditProfileElement);

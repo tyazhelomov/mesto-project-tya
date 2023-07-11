@@ -34,32 +34,36 @@
       <h2 class="popup__header">Редактировать профиль</h2>
       <form class="popup__form" name="popup__form" novalidate>
         <fieldset class="popup__fields">
-          <input
-            id="name-input"
-            class="popup__item"
-            type="text"
-            name="name"
-            placeholder="Имя"
-            minlength="2"
-            maxlength="40"
-            pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
-            data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
-            required
-          >
-          <span class="name-input-error popup__item-error"></span>
-          <input
-            id="description-input"
-            class="popup__item"
-            type="text"
-            name="description"
-            placeholder="Профессия"
-            minlength="2"
-            maxlength="200"
-            pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
-            data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
-            required
-          >
-          <span class="description-input-error popup__item-error"></span>
+          <div class="popup__field">
+            <input
+              id="name-input"
+              class="popup__item"
+              type="text"
+              name="name"
+              placeholder="Имя"
+              minlength="2"
+              maxlength="40"
+              pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
+              data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+              required
+            >
+            <span class="name-input-error popup__item-error"></span>
+          </div>
+          <div class="popup__field">
+            <input
+              id="description-input"
+              class="popup__item"
+              type="text"
+              name="description"
+              placeholder="Профессия"
+              minlength="2"
+              maxlength="200"
+              pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
+              data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+              required
+            >
+            <span class="description-input-error popup__item-error"></span>
+          </div>
           <button class="popup__button" type="submit">Сохранить</button>
         </fieldset>
       </form>
@@ -72,30 +76,34 @@
       <h2 class="popup__header">Новое место</h2>
       <form class="popup__form" name="popup__form" novalidate>
         <fieldset class="popup__fields">
-          <input
-            id="name-input"
-            class="popup__item"
-            type="text"
-            name="name"
-            placeholder="Название"
-            minlength="2"
-            maxlength="30"
-            pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
-            data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
-            required
-          >
-          <span class="name-input-error popup__item-error"></span>
-          <input
-            id="link-input"
-            class="popup__item"
-            type="url"
-            name="link"
-            placeholder="Ссылка на картинку"
-            pattern="^(((ftp|http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$"
-            data-error-message="Введите корректный URL"
-            required
-          >
-          <span class="link-input-error popup__item-error"></span>
+          <div class="popup__field">
+            <input
+              id="name-input"
+              class="popup__item"
+              type="text"
+              name="name"
+              placeholder="Название"
+              minlength="2"
+              maxlength="30"
+              pattern="^[a-zA-Zа-яёËА-Я\s\-]+$"
+              data-error-message="Разрешены латинские буквы, кириллические буквы, знаки дефиса и пробелы."
+              required
+            >
+            <span class="name-input-error popup__item-error"></span>
+          </div>
+          <div class="popup__field">
+            <input
+              id="link-input"
+              class="popup__item"
+              type="url"
+              name="link"
+              placeholder="Ссылка на картинку"
+              pattern="^(((ftp|http|https):\/\/)|(\/)|(..\/))(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$"
+              data-error-message="Введите корректный URL"
+              required
+            >
+            <span class="link-input-error popup__item-error"></span>
+          </div>
           <button class="popup__button" type="submit">Создать</button>
         </fieldset>
       </form>

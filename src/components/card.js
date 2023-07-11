@@ -1,12 +1,18 @@
 import {
+  showCard,
+  getFormFields,
+  clearFields,
+  closePopup,
+} from "./modal.js"
+import {
   cardsContainer,
   cardsItemTemplate,
-} from "../script/script.js";
-
-import { showCard } from "./modal.js"
+  popupAddImageElement,
+  validationsConstants,
+} from "../constants/elements";
 
 function removeCard(evt) {
-  evt.srcElement.closest('.cards__item').remove();
+  evt.srcElement.closest(validationsConstants.inputSelector).remove();
 }
 
 function renderCards(cardData) {
@@ -27,18 +33,13 @@ function createCards(cardData) {
   const likeButton = cardsItemElement.querySelector('.cards__like');
   const removeButton = cardsItemElement.querySelector('.cards__remove');
 
-  cardImageElement.setAttribute('src', link);
-  cardImageElement.setAttribute('alt', name);
+  cardImageElement.src = link;
+  cardImageElement.alt = name;
   cardTextElement.textContent = name;
 
   likeButton.addEventListener('click', () => likeButton.classList.toggle('cards__like_active'))
   removeButton.addEventListener('click', removeCard);
-  cardImageElement.addEventListener('click', evt => {
-    const link = evt.srcElement.currentSrc;
-    const name = evt.srcElement.closest('.cards__item').textContent;
-
-    showCard(link, name)
-  });
+  cardImageElement.addEventListener('click', () => showCard(cardImageElement.src, cardTextElement.textContent));
 
   return cardsItemElement;
 }
@@ -47,22 +48,15 @@ function addImage(evt) {
   evt.preventDefault();
 
   const fields = getFormFields(popupAddImageElement);
-  let name;
-  let link;
-
-  fields.forEach(el => {
-    if (el.id === 'name-input') {
-      name = el.value;
-    } else if (el.id === 'link-input') {
-      link = el.value
-    }
-  })
+  const name = fields.name;
+  const link = fields.link;
 
   if (!name || !link) {
     clearFields(popupAddImageElement);
     closePopup(popupAddImageElement);
   } else {
     renderCards({ name, link });
+    console.log(123)
     clearFields(popupAddImageElement);
     closePopup(popupAddImageElement);
   }

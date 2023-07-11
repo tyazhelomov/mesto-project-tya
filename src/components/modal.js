@@ -1,50 +1,77 @@
 import {
+  disableButton,
+  hideInputError,
+} from "./validate";
+import {
   popupEditProfileElement,
   profileName,
   profileDescription,
   popupViewElement,
   popupViewImage,
   popupViewText,
-} from "../script/script";
+  validationsConstants
+} from "../constants/elements";
 
 
 function getFormFields(element) {
-  return Array.from(element.querySelectorAll('.popup__item'));
+  const arr = Array.from(element.querySelectorAll(validationsConstants.inputSelector));
+  const obj = {};
+
+  arr.forEach((el) => {
+    obj[el.name] = el.value;
+  })
+  
+  return obj;
 }
 
 function openPopup(element) {
   element.classList.add('popup_opened');
+  document.querySelector('.page').addEventListener('keydown', listener);
+}
+
+const listener = (evt) => {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened')
+    clearFields(openedPopup);
+    closePopup(openedPopup);
+  }
 }
 
 const clearFields = element => {
   const formElement = element.querySelector('form');
   formElement.reset();
+  disableButton(formElement.querySelector('button'), validationsConstants.inactiveButtonClass);
 }
 
 function closePopup(element) {
   element.classList.remove('popup_opened');
+  document.querySelector('.page').removeEventListener('keydown', listener);
 }
 
 function openProfilePopup() {
   const fields = getFormFields(popupEditProfileElement);
 
-  fields.forEach(item => {
-    if (item.name === 'name') {
-      item.value = profileName.textContent;
-    } else {
-      item.value = profileDescription.textContent;
-    }
-  })
+  fields.name = profileName.textContent;
+  fields.description = profileDescription.textContent;
 
   openPopup(popupEditProfileElement);
 }
 
 function showCard(link, name) {
-  popupViewImage.setAttribute('src', link);
-  popupViewImage.setAttribute('alt', name);
+  popupViewImage.src = link;
+  popupViewImage.alt = name;
   popupViewText.textContent = name;
 
   openPopup(popupViewElement);
+}
+
+function closeAndClearPopup(form, element, inputs) {
+  inputs.forEach(input => {
+    hideInputError(form, input, { inputErrorClass: validationsConstants.inputErrorClass });
+  })
+
+  clearFields(element);
+  closePopup(element);
 }
 
 export {
@@ -53,4 +80,6 @@ export {
   closePopup,
   openProfilePopup,
   showCard,
+  getFormFields,
+  closeAndClearPopup,
 }

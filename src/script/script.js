@@ -16,80 +16,74 @@ import {
   clearFields,
   closePopup,
   openProfilePopup,
+  closeAndClearPopup,
 } from "../components/modal.js";
 
-export const mainPageElement = document.querySelector('.page');
 const logoElement = mainPageElement.querySelector('.header__logo');
-
-export const editProfileButton = mainPageElement.querySelector('.profile__edit-profile-button');
-export const addPictureButton = mainPageElement.querySelector('.profile__add-button');
-export const cardsContainer = mainPageElement.querySelector('.cards');
-export const cardsItemTemplate = mainPageElement.querySelector('#cards__item-template').content;
-
-export const profileElement = mainPageElement.querySelector('.profile__info');
-export const profileImage = mainPageElement.querySelector('.profile__avatar');
-export const profileName = profileElement.querySelector('.profile__name');
-export const profileDescription = profileElement.querySelector('.profile__description');
-
-export const popupEditProfileElement = mainPageElement.querySelector('.popup_profile');
-export const popupEditProfileForm = popupEditProfileElement.querySelector('.popup__form');
-export const popupCloseEditProfileElement = popupEditProfileElement.querySelector('.popup__close');
-export const popUpEditProfileOverlay = popupEditProfileElement.querySelector('.popup__overlay');
-
-export const popupAddImageElement = mainPageElement.querySelector('.popup_image');
-export const popupAddImageForm = popupAddImageElement.querySelector('.popup__form');
-export const popupCloseAddImageElement = popupAddImageElement.querySelector('.popup__close');
-export const popUpAddImageOverlay = popupAddImageElement.querySelector('.popup__overlay');
-
-export const popupViewElement = mainPageElement.querySelector('.popup_view');
-export const popupViewText = popupViewElement.querySelector('.cards-view__text');
-export const popupViewImage = popupViewElement.querySelector('.cards-view__image');
-export const popupViewCloseButton = popupViewElement.querySelector('.popup__close');
-export const popUpViewOverlay = popupViewElement.querySelector('.popup__overlay');
+import {
+  mainPageElement,
+  editProfileButton,
+  addPictureButton,
+  profileImage,
+  popupEditProfileElement,
+  popupEditProfileForm,
+  popupCloseEditProfileElement,
+  popUpEditProfileOverlay,
+  popUpEditProfileNameInput,
+  popUpEditProfileDescriptionInput,
+  popupAddImageElement,
+  popupAddImageForm,
+  popUpAddImageNameInput,
+  popUpAddImageLinkInput,
+  popupCloseAddImageElement,
+  popUpAddImageOverlay,
+  popupViewElement,
+  popupViewCloseButton,
+  popUpViewOverlay,
+  validationsConstants,
+} from "../constants/elements";
 
 editProfileButton.addEventListener('click', openProfilePopup);
-popupCloseEditProfileElement.addEventListener('click', () => {
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#description-input'), { inputErrorClass: 'popup__item_type-error' });
-  clearFields(popupEditProfileElement);
-  closePopup(popupEditProfileElement);
-});
-popUpEditProfileOverlay.addEventListener('click', () => {
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
-  hideInputError(popupEditProfileForm, popupEditProfileForm.querySelector('#description-input'), { inputErrorClass: 'popup__item_type-error' });
-  clearFields(popupEditProfileElement.closest('.popup'));
-  closePopup(popupEditProfileElement.closest('.popup'));
-});
+popupCloseEditProfileElement.addEventListener('click', () => closeAndClearPopup(
+  popupEditProfileForm, 
+  popupEditProfileElement,
+  [
+    popUpEditProfileNameInput,
+    popUpEditProfileDescriptionInput,
+  ]
+));
+popUpEditProfileOverlay.addEventListener('click', () => closeAndClearPopup(
+  popupEditProfileForm, 
+  popupEditProfileElement,
+  [
+    popUpEditProfileNameInput,
+    popUpEditProfileDescriptionInput,
+  ]
+));
 
 popupEditProfileForm.addEventListener('submit', saveProfileInfo);
 popupViewCloseButton.addEventListener('click', () => closePopup(popupViewElement));
 popUpViewOverlay.addEventListener('click', () => closePopup(popupViewElement.closest('.popup')));
 
-popupCloseAddImageElement.addEventListener('click', () => {
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#link-input'), { inputErrorClass: 'popup__item_type-error' });
-  clearFields(popupAddImageElement);
-  closePopup(popupAddImageElement);
-});
-popUpAddImageOverlay.addEventListener('click', () => {
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#name-input'), { inputErrorClass: 'popup__item_type-error' });
-  hideInputError(popupAddImageForm, popupAddImageForm.querySelector('#link-input'), { inputErrorClass: 'popup__item_type-error' });
-  clearFields(popupAddImageElement.closest('.popup'));
-  closePopup(popupAddImageElement.closest('.popup'));
-});
+popupCloseAddImageElement.addEventListener('click', () => closeAndClearPopup(
+  popupAddImageForm, 
+  popupAddImageElement,
+  [
+    popUpAddImageNameInput,
+    popUpAddImageLinkInput,
+  ]
+));
+popUpAddImageOverlay.addEventListener('click', () => closeAndClearPopup(
+  popupAddImageForm, 
+  popupAddImageElement,
+  [
+    popUpAddImageNameInput,
+    popUpAddImageLinkInput,
+  ]
+));
 
 addPictureButton.addEventListener('click', () => openPopup(popupAddImageElement));
 popupAddImageForm.addEventListener('submit', addImage);
-
-mainPageElement.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    clearFields(popupEditProfileElement.closest('.popup'));
-    closePopup(popupEditProfileElement.closest('.popup'));
-    closePopup(popupViewElement.closest('.popup'));
-    clearFields(popupAddImageElement.closest('.popup'));
-    closePopup(popupAddImageElement.closest('.popup'));
-  }
-})
 
 profileImage.setAttribute('src', kusto);
 logoElement.setAttribute('src', logo);
@@ -105,11 +99,4 @@ initialCards.forEach(item => {
   renderCards({ name, link });
 })
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__item',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_inactive',
-  inputErrorClass: 'popup__item_type-error',
-  errorClass: 'popup__item_type-error_active',
-}); 
+enableValidation(validationsConstants); 

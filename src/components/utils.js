@@ -2,20 +2,79 @@ import {
   getFormFields,
   clearFields,
   closePopup,
+  changeButtonText,
 } from "../components/modal";
 import {
-  popupEditProfileElement,
   profileName,
   profileDescription,
+  profileImage,
+  popupEditProfileElement,
+  popUpEditAvatarElement,
+  popUpEditAvatarButton,
+  popUpEditProfileButton,
 } from "../constants/elements";
+import {
+  patchUserInfo,
+  updateUserAvatar,
+} from "./api";
+import {
+  renderCards,
+} from '../components/card.js';
 
 export function saveProfileInfo(evt) {
   evt.preventDefault();
+  changeButtonText(popUpEditProfileButton, true);
   const fields = getFormFields(popupEditProfileElement);
 
-  profileName.textContent = fields.name;
-  profileDescription.textContent = fields.description;
+  const name = fields.name;
+  const description = fields.description;
 
+  patchUserInfo(name, description);
   clearFields(popupEditProfileElement);
   closePopup(popupEditProfileElement);
+}
+
+export async function updateProfile(evt) {
+  evt.preventDefault();
+  changeButtonText(popUpEditAvatarButton, true);
+  const fields = getFormFields(popUpEditAvatarElement);
+
+  const link = fields.url;
+  await updateUserAvatar(link);
+  clearFields(popUpEditAvatarElement);
+  closePopup(popUpEditAvatarElement);
+}
+
+export function loadUserInfo(data) {
+  return new Promise((resolve,reject) => {
+    if (data.name) {
+      profileName.textContent = data.name;
+      profileName.onload = resolve;
+      profileName.onerror = reject;
+    }
+    
+    if (data.about) {
+      profileDescription.textContent = data.about;
+      profileDescription.onload = resolve;
+      profileDescription.onerror = reject;
+    }
+    
+    if (data.avatar) {
+      profileImage.src = data.avatar;
+      profileImage.onload = resolve;
+      profileImage.onerror = reject;
+    }
+  })
+}
+
+export function loadCards(data) {
+  data.forEach(item => {
+    const name = item.name;
+    const link = item.link;
+    const id = item._id;
+    const likes = item.likes;
+    const ownerId = item.owner._id;
+  
+    renderCards({ name, link, id, likes, ownerId });
+  })
 }

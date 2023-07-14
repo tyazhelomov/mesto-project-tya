@@ -1,0 +1,12 @@
+.cards__likes_button {
+  background: url(../../../../images/cards/like__unactive.svg);
+  min-width: 22px;
+  min-height: 19px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  border: 0;
+}
+
+.cards__likes_button:hover {
+  opacity: 0.5;
+}

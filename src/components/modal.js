@@ -24,6 +24,16 @@ function getFormFields(element) {
   return obj;
 }
 
+export const changeButtonText = (button, isLoad) => {
+  console.log(button, isLoad)
+  if (isLoad) {
+      button.textContent = 'Сохранение...'
+  } else {
+      button.textContent = 'Сохранить'
+  }
+  console.log(button, isLoad)
+}
+
 function openPopup(element) {
   element.classList.add('popup_opened');
   document.querySelector('.page').addEventListener('keydown', listener);
@@ -39,8 +49,14 @@ const listener = (evt) => {
 
 const clearFields = element => {
   const formElement = element.querySelector('form');
-  formElement.reset();
-  disableButton(formElement.querySelector('button'), validationsConstants.inactiveButtonClass);
+
+  if (formElement) {
+    const buttonElement = formElement.querySelector('button');
+    formElement.reset();
+
+    changeButtonText(buttonElement, false);
+    disableButton(buttonElement, validationsConstants.inactiveButtonClass);
+  }
 }
 
 function closePopup(element) {

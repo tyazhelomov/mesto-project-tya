@@ -1,30 +1,32 @@
 import '../pages/index.css';
-import { initialCards } from '../constants/cards.js';
 import logo from '../images/logo.svg';
-import kusto from '../images/kusto.jpg';
 import {
   addImage,
-  renderCards,
 } from '../components/card.js';
 import {
   enableValidation,
-  hideInputError,
 } from '../components/validate.js';
-import { saveProfileInfo } from '../components/utils.js';
+import {
+  saveProfileInfo,
+  updateProfile,
+} from '../components/utils.js';
 import {
   openPopup,
-  clearFields,
   closePopup,
   openProfilePopup,
   closeAndClearPopup,
 } from "../components/modal.js";
+import {
+  getUserInfo,
+  getInitialCards,
+} from '../components/api';
 
 const logoElement = mainPageElement.querySelector('.header__logo');
 import {
   mainPageElement,
   editProfileButton,
   addPictureButton,
-  profileImage,
+  profileImageButton,
   popupEditProfileElement,
   popupEditProfileForm,
   popupCloseEditProfileElement,
@@ -40,7 +42,17 @@ import {
   popupViewElement,
   popupViewCloseButton,
   popUpViewOverlay,
+  popUpEditAvatarElement,
+  popupEditAvatarCloseButton,
+  popUpEditAvatarOverlay,
+  popUpEditAvatarForm,
+  popUpEditAvatarLinkInput,
   validationsConstants,
+  popUpDeleteCardElement,
+  popUpDeleteCardForm,
+  popupDeleteCardCloseButton,
+  popUpDeleteCardOverlay,
+  popUpDeleteCardButton,
 } from "../constants/elements";
 
 editProfileButton.addEventListener('click', openProfilePopup);
@@ -65,6 +77,9 @@ popupEditProfileForm.addEventListener('submit', saveProfileInfo);
 popupViewCloseButton.addEventListener('click', () => closePopup(popupViewElement));
 popUpViewOverlay.addEventListener('click', () => closePopup(popupViewElement.closest('.popup')));
 
+popupDeleteCardCloseButton.addEventListener('click', () => closePopup(popUpDeleteCardElement));
+popUpDeleteCardOverlay.addEventListener('click', () => closePopup(popUpDeleteCardElement.closest('.popup')));
+
 popupCloseAddImageElement.addEventListener('click', () => closeAndClearPopup(
   popupAddImageForm, 
   popupAddImageElement,
@@ -85,18 +100,31 @@ popUpAddImageOverlay.addEventListener('click', () => closeAndClearPopup(
 addPictureButton.addEventListener('click', () => openPopup(popupAddImageElement));
 popupAddImageForm.addEventListener('submit', addImage);
 
-profileImage.setAttribute('src', kusto);
+profileImageButton.addEventListener('click', () => openPopup(popUpEditAvatarElement));
+popupEditAvatarCloseButton.addEventListener('click', () => closeAndClearPopup(
+  popUpEditAvatarForm,
+  popUpEditAvatarElement,
+  [
+    popUpEditAvatarLinkInput,
+  ],
+));
+popUpEditAvatarOverlay.addEventListener('click', () => closeAndClearPopup(
+  popUpEditAvatarForm,
+  popUpEditAvatarElement,
+  [
+    popUpEditAvatarLinkInput,
+  ],
+));
+popUpEditAvatarForm.addEventListener('submit', updateProfile);
+
+// profileImage.setAttribute('src', kusto);
 logoElement.setAttribute('src', logo);
 
 Array.from(mainPageElement.querySelectorAll('.popup')).forEach(el => {
   el.classList.remove('popup_display-none');
 })
 
-initialCards.forEach(item => {
-  const name = item.name;
-  const link = item.link;
+enableValidation(validationsConstants);
 
-  renderCards({ name, link });
-})
-
-enableValidation(validationsConstants); 
+getUserInfo();
+getInitialCards();

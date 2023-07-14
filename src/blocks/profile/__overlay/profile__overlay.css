@@ -1,0 +1,21 @@
+.profile__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  background: none;
+}
+
+
+.profile__overlay:hover {
+  background-color: rgba(0,0,0,.5);
+  background-image: url(../../../images/paint.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}

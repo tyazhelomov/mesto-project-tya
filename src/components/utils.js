@@ -1,7 +1,5 @@
 import {
   getFormFields,
-  clearFields,
-  closePopup,
   changeButtonText,
 } from "../components/modal";
 import {
@@ -29,9 +27,7 @@ export function saveProfileInfo(evt) {
   const name = fields.name;
   const description = fields.description;
 
-  patchUserInfo(name, description);
-  clearFields(popupEditProfileElement);
-  closePopup(popupEditProfileElement);
+  patchUserInfo(name, description, popupEditProfileElement);
 }
 
 export async function updateProfile(evt) {
@@ -40,9 +36,7 @@ export async function updateProfile(evt) {
   const fields = getFormFields(popUpEditAvatarElement);
 
   const link = fields.url;
-  await updateUserAvatar(link);
-  clearFields(popUpEditAvatarElement);
-  closePopup(popUpEditAvatarElement);
+  updateUserAvatar(link, popUpEditAvatarElement);
 }
 
 export function loadUserInfo(data) {
@@ -65,9 +59,10 @@ export function loadUserInfo(data) {
       profileImage.onerror = reject;
     }
   })
+  .then(() => data._id)
 }
 
-export function loadCards(data) {
+export function loadCards(owner, data) {
   data.forEach(item => {
     const name = item.name;
     const link = item.link;
@@ -75,6 +70,6 @@ export function loadCards(data) {
     const likes = item.likes;
     const ownerId = item.owner._id;
   
-    renderCards({ name, link, id, likes, ownerId });
+    renderCards(owner, { name, link, id, likes, ownerId });
   })
 }

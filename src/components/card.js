@@ -1,8 +1,6 @@
 import {
   showCard,
   getFormFields,
-  clearFields,
-  closePopup,
   changeButtonText,
   openPopup,
 } from "./modal.js"
@@ -12,10 +10,6 @@ import {
   popupAddImageElement,
   popUpAddImageButton,
   popUpDeleteCardElement,
-  popUpDeleteCardForm,
-  popupDeleteCardCloseButton,
-  popUpDeleteCardOverlay,
-  popUpDeleteCardButton,
 } from "../constants/elements";
 import {
   addNewCard,
@@ -23,13 +17,11 @@ import {
   putLikeCard,
   deleteLikeCard,
 } from "./api.js";
-import { owner } from "../constants/constants.js";
 
 function openApprovePopup(evt) {
   const item = evt.srcElement.closest('.cards__item');
   popUpDeleteCardElement.id = item.querySelector('.cards__image').id;
   openPopup(popUpDeleteCardElement);
-  popUpDeleteCardForm.addEventListener('submit', removeCard)
 }
 
 function removeCard(evt) {
@@ -38,21 +30,18 @@ function removeCard(evt) {
   const id = evt.srcElement.closest('.popup_card-delete').id;
   const item = Array.from(cardsContainer.querySelectorAll('.cards__item')).find((el => {
     const imageId = el.querySelector('.cards__image').id;
-    console.log(id, imageId)
     return id === imageId;
   }))
-  deleteCard(id);
-  item.remove();
-  closePopup(popUpDeleteCardElement);
+  deleteCard(id, item, popUpDeleteCardElement);
 }
 
-function renderCards(cardData) {
-  const card = createCards(cardData);
+function renderCards(owner, cardData) {
+  const card = createCards(owner, cardData);
   
   cardsContainer.prepend(card);
 }
 
-function createCards(cardData) {
+function createCards(owner, cardData) {
   const {
     name,
     link,
@@ -68,7 +57,7 @@ function createCards(cardData) {
   const likeAmount = cardsItemElement.querySelector('.cards__likes_amount');
 
   if (ownerId === owner) {
-    let button = document.createElement('button');
+    const button = document.createElement('button');
     button.className = 'cards__remove';
     button.type = 'button';
     cardsItemElement.append(button);
@@ -87,15 +76,11 @@ function createCards(cardData) {
   cardTextElement.textContent = name;
   likeAmount.textContent = likes.length;
 
-  likeButton.addEventListener('click', async () => {
+  likeButton.addEventListener('click', () => {
     if (likeButton.className.includes('cards__likes_active')) {
-      const { likes } = await deleteLikeCard(id);
-      likeButton.classList.remove('cards__likes_active');
-      likeAmount.textContent = likes.length;
+      deleteLikeCard(id, likeButton, likeAmount);
     } else {
-      const { likes } = await putLikeCard(id);
-      likeButton.classList.add('cards__likes_active');
-      likeAmount.textContent = likes.length;
+      putLikeCard(id, likeButton, likeAmount);
     }
   })
   cardImageElement.addEventListener('click', () => showCard(cardImageElement.src, cardTextElement.textContent));
@@ -103,27 +88,18 @@ function createCards(cardData) {
   return cardsItemElement;
 }
 
-async function addImage(evt) {
+function addImage(evt) {
   evt.preventDefault();
 
   changeButtonText(popUpAddImageButton, true);
   const fields = getFormFields(popupAddImageElement);
   const name = fields.name;
   const link = fields.link;
-  const { id, ownerId } = await addNewCard(name, link);
-  console.log(popUpAddImageButton)
-
-  if (!name || !link) {
-    clearFields(popupAddImageElement);
-    closePopup(popupAddImageElement);
-  } else {
-    renderCards({ name, link, id, ownerId });
-    clearFields(popupAddImageElement);
-    closePopup(popupAddImageElement);
-  }
+  addNewCard(name, link, popupAddImageElement);
 }
 
 export {
   addImage,
   renderCards,
+  removeCard,
 };

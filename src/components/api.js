@@ -1,3 +1,8 @@
+import kusto from '../images/kusto.jpg';
+import { renderCards } from '../components/card.js';
+import { initialCards } from '../constants/cards.js';
+import { loadUserInfo } from '../components/utils';
+import { closePopup } from '../components/modal';
 import {
   endpoints,
   methods,
@@ -7,29 +12,22 @@ import {
   profileName,
   profileDescription,
 } from "../constants/elements";
-import kusto from '../images/kusto.jpg';
-import {
-  renderCards,
-} from '../components/card.js';
-import { initialCards } from '../constants/cards.js';
-import {
-  loadUserInfo,
-  loadCards
-} from '../components/utils';
+
+function getResponseData(res) {
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw res;
+  }
+}
 
 function getUserInfo() {
-  fetch(`${ config.baseUrl }${ endpoints.GET_USER}`, {
+  return fetch(`${ config.baseUrl }${ endpoints.GET_USER}`, {
     method: methods.GET,
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
-  })
-  .then(data => loadUserInfo(data))
+  .then(res => getResponseData(res))
+  .then(data => data)
   .catch(() => loadUserInfo({
     name: 'Жак-Ив Кусто',
     about: 'Исследователь океана',
@@ -38,18 +36,12 @@ function getUserInfo() {
 }
 
 function getInitialCards() {
-  fetch(`${ config.baseUrl }${ endpoints.GET_CARDS}`, {
+  return fetch(`${ config.baseUrl }${ endpoints.GET_CARDS}`, {
     method: methods.GET,
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
-  })
-  .then(data => loadCards(data))
+  .then(res => getResponseData(res))
+  .then(data => data)
   .catch(() => {
     initialCards.forEach(item => {
       const name = item.name;
@@ -60,7 +52,7 @@ function getInitialCards() {
   });
 } 
 
-function patchUserInfo(name, about) {
+function patchUserInfo(name, about, element) {
   fetch(`${ config.baseUrl }${ endpoints.PATCH_PROFILE}`, {
     method: methods.PATCH,
     headers: config.headers,
@@ -69,22 +61,17 @@ function patchUserInfo(name, about) {
       about,
     })
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
-  })
+  .then(res => getResponseData(res))
   .then(data => {
     profileName.textContent = data.name;
     profileDescription.textContent = data.about;
+    closePopup(element);
   })
   .catch((err) => console.log(err));
 }
 
-function addNewCard(name, link) {
-  return fetch(`${ config.baseUrl }${ endpoints.POST_NEW_CARD}`, {
+function addNewCard(name, link, element) {
+  fetch(`${ config.baseUrl }${ endpoints.POST_NEW_CARD}`, {
     method: methods.POST,
     headers: config.headers,
     body: JSON.stringify({
@@ -92,82 +79,74 @@ function addNewCard(name, link) {
       link,
     })
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
-  })
+  .then(res => getResponseData(res))
   .then(data => {
-    data.likes = [];
-    return data;
+    renderCards({
+      name: data.name,
+      link: data.link,
+      id: data._id,
+      ownerId: data.owner?._id,
+    });
+
+    closePopup(element);
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err);
+
+    closePopup(element);
+  });
 }
 
-function deleteCard(id) {
+function deleteCard(id, item, element) {
   fetch(`${ config.baseUrl }${ endpoints.DELETE_CARD(id)}`, {
     method: methods.DELETE,
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
+  .then(res => getResponseData(res))
+  .then(() => {
+    item.remove();
+    closePopup(element);
   })
-  .then(data => data)
   .catch((err) => console.log(err));
 }
 
-function putLikeCard(id) {
-  return fetch(`${ config.baseUrl }${ endpoints.LIKES(id)}`, {
+function putLikeCard(id, likeButton, likeAmount) {
+  fetch(`${ config.baseUrl }${ endpoints.LIKES(id)}`, {
     method: methods.PUT,
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
+  .then(res => getResponseData(res))
+  .then(data => {
+    likeButton.classList.add('cards__likes_active');
+    likeAmount.textContent = data.likes?.length;
   })
-  .then(data => data)
   .catch((err) => console.log(err));
 }
 
-function deleteLikeCard(id) {
-  return fetch(`${ config.baseUrl }${ endpoints.LIKES(id)}`, {
+function deleteLikeCard(id, likeButton, likeAmount) {
+  fetch(`${ config.baseUrl }${ endpoints.LIKES(id)}`, {
     method: methods.DELETE,
     headers: config.headers,
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
+  .then(res => getResponseData(res))
+  .then(data => {
+    likeButton.classList.remove('cards__likes_active');
+    likeAmount.textContent = data.likes?.length;
   })
-  .then(data => data)
   .catch((err) => console.log(err));
 }
 
-function updateUserAvatar(avatar) {
-  return fetch(`${ config.baseUrl }${ endpoints.UPDATE_AVATAR}`, {
+function updateUserAvatar(avatar, element) {
+  fetch(`${ config.baseUrl }${ endpoints.UPDATE_AVATAR}`, {
     method: methods.PATCH,
     headers: config.headers,
     body: JSON.stringify({ avatar }),
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
+  .then(res => getResponseData(res))
+  .then(data => {
+    loadUserInfo(data);
+    closePopup(element);
   })
-  .then(data => loadUserInfo(data))
   .catch((err) => console.log(err));
 }
 

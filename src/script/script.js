@@ -2,6 +2,7 @@ import '../pages/index.css';
 import logo from '../images/logo.svg';
 import {
   addImage,
+  removeCard,
 } from '../components/card.js';
 import {
   enableValidation,
@@ -9,6 +10,8 @@ import {
 import {
   saveProfileInfo,
   updateProfile,
+  loadUserInfo,
+  loadCards,
 } from '../components/utils.js';
 import {
   openPopup,
@@ -52,7 +55,6 @@ import {
   popUpDeleteCardForm,
   popupDeleteCardCloseButton,
   popUpDeleteCardOverlay,
-  popUpDeleteCardButton,
 } from "../constants/elements";
 
 editProfileButton.addEventListener('click', openProfilePopup);
@@ -117,7 +119,7 @@ popUpEditAvatarOverlay.addEventListener('click', () => closeAndClearPopup(
 ));
 popUpEditAvatarForm.addEventListener('submit', updateProfile);
 
-// profileImage.setAttribute('src', kusto);
+popUpDeleteCardForm.addEventListener('submit', removeCard)
 logoElement.setAttribute('src', logo);
 
 Array.from(mainPageElement.querySelectorAll('.popup')).forEach(el => {
@@ -126,5 +128,17 @@ Array.from(mainPageElement.querySelectorAll('.popup')).forEach(el => {
 
 enableValidation(validationsConstants);
 
-getUserInfo();
-getInitialCards();
+Promise.all([
+  getUserInfo(),
+  getInitialCards()
+])
+.then(async ([userInfo, cards]) => {
+  return [
+    await loadUserInfo(userInfo),
+    cards,
+  ];
+})
+.then(([userId, cards]) => {
+  loadCards(userId, cards)
+})
+.catch(err => console.log(err));

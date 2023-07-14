@@ -4,6 +4,8 @@ import {
 } from "./validate";
 import {
   popupEditProfileElement,
+  popUpEditProfileNameInput,
+  popUpEditProfileDescriptionInput,
   profileName,
   profileDescription,
   popupViewElement,
@@ -25,13 +27,11 @@ function getFormFields(element) {
 }
 
 export const changeButtonText = (button, isLoad) => {
-  console.log(button, isLoad)
   if (isLoad) {
       button.textContent = 'Сохранение...'
   } else {
       button.textContent = 'Сохранить'
   }
-  console.log(button, isLoad)
 }
 
 function openPopup(element) {
@@ -42,15 +42,16 @@ function openPopup(element) {
 const listener = (evt) => {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened')
-    clearFields(openedPopup);
     closePopup(openedPopup);
   }
 }
 
 const clearFields = element => {
   const formElement = element.querySelector('form');
+  const cardDeleteForm = formElement.closest('.popup_card-delete');
+  
 
-  if (formElement) {
+  if (formElement && !cardDeleteForm) {
     const buttonElement = formElement.querySelector('button');
     formElement.reset();
 
@@ -62,13 +63,12 @@ const clearFields = element => {
 function closePopup(element) {
   element.classList.remove('popup_opened');
   document.querySelector('.page').removeEventListener('keydown', listener);
+  clearFields(element);
 }
 
 function openProfilePopup() {
-  const fields = getFormFields(popupEditProfileElement);
-
-  fields.name = profileName.textContent;
-  fields.description = profileDescription.textContent;
+  popUpEditProfileNameInput.value = profileName.textContent;
+  popUpEditProfileDescriptionInput.value = profileDescription.textContent;
 
   openPopup(popupEditProfileElement);
 }
@@ -86,13 +86,11 @@ function closeAndClearPopup(form, element, inputs) {
     hideInputError(form, input, { inputErrorClass: validationsConstants.inputErrorClass });
   })
 
-  clearFields(element);
   closePopup(element);
 }
 
 export {
   openPopup,
-  clearFields,
   closePopup,
   openProfilePopup,
   showCard,

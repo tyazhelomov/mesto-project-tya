@@ -1,6 +1,7 @@
 .popup__item-error {
   width: 100%;
   margin-top: 5px;
+  height: 26px;
 }
 
 @media screen and (max-width: 907px) {
